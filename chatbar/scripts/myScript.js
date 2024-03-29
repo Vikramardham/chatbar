@@ -17,25 +17,21 @@
 
 // Send the entire HTML content to the server on page load
 window.addEventListener('load', () => {
-    const htmlContent = document.documentElement.outerHTML;
-    fetch('http://127.0.0.1:8000/send-html', {
-        method: 'POST',
-        mode: 'no-cors',
-        headers: {
-            'Content-Type': 'application/json'
-        },
-        body: JSON.stringify({ html: htmlContent })
-    })
-        .then(response => response.json())
-        .then(data => {
-            console.log('HTML sent to server:', data);
-        })
-        .catch(error => {
-            console.error('Error sending HTML to server:', error);
+    chrome.runtime.sendMessage({ message: "getHTML" }, function (response) {
+        const htmlContent = response.html;
+        fetch('http://127.0.0.1:8000/send-html', {
+            method: 'POST',
+            mode: 'no-cors',
+            headers: {
+                'Content-Type': 'application/json'
+            },
+            body: JSON.stringify({ html: htmlContent })
         });
+    });
 });
 
 // Handle form submission and send the message to the server
+
 const chatForm = document.getElementById('chat-form');
 const chatInput = document.getElementById('chat-input');
 const messageList = document.getElementById('messages');
