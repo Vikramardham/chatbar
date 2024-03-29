@@ -67,11 +67,11 @@ body {
 }
 
 #messages li:nth-child(odd)::before {
-    background-image: url('user.jpeg');
+    background-image: url('images/user.jpeg');
 }
 
 #messages li:nth-child(even)::before {
-    background-image: url('ai.jpeg');
+    background-image: url('images/ai.jpeg');
 }
 
 #messages li strong {

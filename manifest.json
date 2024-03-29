@@ -4,9 +4,6 @@
   "version": "1.0",
   "description": "Shows how to call sidePanel.open() to open a global side panel.",
   "minimum_chrome_version": "116",
-  "background": {
-    "service_worker": "service-worker.js"
-  },
   "side_panel": {
     "default_path": "sidepanel-global.html"
   },
