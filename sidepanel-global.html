@@ -1,0 +1,27 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Chat</title>
+    <!-- Content Security Policy allowing 'self' -->
+    <meta http-equiv="Content-Security-Policy" content="default-src 'self'; script-src 'self';connect-src 'self' http://127.0.0.1:8000;">
+    <link rel="stylesheet" type="text/css" href="style.css">
+</head>
+<body>
+    <header>
+        <h1>Chat with Me :)</h1>
+    </header>
+    <main>
+        <section class="chat-container">
+            <ul id="messages"></ul>
+            <form id="chat-form" action="" method="post">
+                <input type="text" id="chat-input" placeholder="Type your message here ...">
+                <button type="submit">Ask!</button>
+            </form>
+        </section>
+    </main>
+    <!-- Correctly formed script tag -->
+    <script src="./scripts/myScript.js"></script>
+</body>
+</html>

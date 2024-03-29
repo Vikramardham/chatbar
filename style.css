@@ -1,0 +1,105 @@
+body {
+    display: flex;
+    flex-direction: column;
+    justify-content: space-between;
+    height: 100vh;
+    margin: 0;
+    padding: 0;
+    box-sizing: border-box;
+}
+
+#messages {
+    flex-grow: 1;
+    overflow-y: auto;
+}
+
+#messages ul {
+    list-style-type: none;
+    padding: 0;
+    display: flex;
+    flex-direction: column;
+}
+
+#messages li {
+    list-style-type: none;
+    font-size:18px;
+    max-width: 100%;
+    margin-bottom: 10px;
+    padding: 0.5rem;
+    border-radius: 1rem;
+    width: fit-content;
+}
+
+#messages li:nth-child(odd) {
+    align-self: flex-end;
+    background-color: #0084ff;
+    color: white;
+}
+
+#messages li:nth-child(even) {
+    align-self: flex-start;
+    background-color: #f0f0f0;
+    color: black;
+}
+
+/* #messages li::before {
+    display:inline-block;
+    width: 24px;
+    height: 24px;
+    margin-right: 0.5rem;
+    vertical-align: middle;
+    background-size: contain;
+    background-repeat: no-repeat;
+} */
+
+#messages li:nth-child(odd)::before,
+#messages li:nth-child(even)::before {
+    content: "";
+    display:inline-block;
+    width: 20px; /* Adjust as needed */
+    height: 20px; /* Adjust as needed */
+    margin-right: 0.5rem;
+    margin-bottom: 0.5rem;
+    vertical-align: middle;
+    background-size: contain;
+    background-repeat: no-repeat;
+    border-radius: 50%;
+}
+
+#messages li:nth-child(odd)::before {
+    background-image: url('user.jpeg');
+}
+
+#messages li:nth-child(even)::before {
+    background-image: url('ai.jpeg');
+}
+
+#messages li strong {
+    font-weight: bold;
+}
+
+form {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    padding: 1rem;
+    border-top: 1px solid #ccc;
+}
+
+input {
+    flex-grow: 1;
+    padding: 0.5rem;
+    border: 1px solid #ccc;
+    border-radius: 0.25rem;
+    outline: none;
+}
+
+button {
+    padding: 0.5rem;
+    background-color: #4CAF50;
+    color: white;
+    border: none;
+    border-radius: 0.25rem;
+    cursor: pointer;
+    margin-left: 1rem;
+}
