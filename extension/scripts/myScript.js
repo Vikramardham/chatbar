@@ -1,22 +1,6 @@
-// top level await is available in ES modules loaded from script tags
-// const [tab] = await chrome.tabs.query({
-//   active: true,
-//   lastFocusedWindow: true
-// });
-
-// const tabId = tab.id;
-// const button = document.getElementById('openSidePanel');
-// button.addEventListener('click', async () => {
-//   await chrome.sidePanel.open({ tabId });
-//   await chrome.sidePanel.setOptions({
-//     tabId,
-//     path: 'sidepanel-tab.html',
-//     enabled: true
-//   });
-// });
-
-// Send the entire HTML content to the server on page load
-window.addEventListener('load', () => {
+//Send the entire HTML content to the server on page load
+//window.addEventListener('load', () => {
+window.onload = function () {
     chrome.runtime.sendMessage({ message: "getHTML" }, function (response) {
         const htmlContent = response.html;
         fetch('http://127.0.0.1:8000/send-html', {
@@ -28,7 +12,9 @@ window.addEventListener('load', () => {
             body: JSON.stringify({ html: htmlContent })
         });
     });
-});
+    //});
+};
+
 
 // Handle form submission and send the message to the server
 

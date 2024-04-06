@@ -1,8 +1,14 @@
 from fastapi import FastAPI, Request
 from fastapi.middleware.cors import CORSMiddleware
 import ollama
+import asyncio
+import json
+from reader import extract_article
+from gen_summary import generate_summary
+from chat import Chat
 
 app = FastAPI()
+# app.state.chat = None
 
 # Replace this with the actual URL of your LLM server
 LLM_SERVER_URL = "http://localhost:11434/api/generate"
@@ -20,18 +26,23 @@ app.add_middleware(
 
 @app.post("/send-html")
 async def send_html(request: Request):
-    html_content = await request.json()
-    print("Received HTML content:", html_content)
-    return {"message": "HTML received successfully"}
+    html = await request.json()
+
+    content = extract_article(html["html"])
+    summary = generate_summary(content)
+    app.state.summary = summary
+
+    app.state.chat = Chat(context=content)
+    print("Chat context:", content)
+    return {"message": "HTML received and processed"}
 
 
 @app.post("/send-message")
 async def send_message(request: Request):
     message_data = await request.json()
     message = message_data["message"]
-    response = ollama.generate(model="mistral", prompt=message)
-
-    return {"response": response["response"]}
+    response = app.state.chat.respond(message)
+    return {"response": response}
 
 
 if __name__ == "__main__":

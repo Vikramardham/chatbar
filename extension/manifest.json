@@ -1,6 +1,6 @@
 {
   "manifest_version": 3,
-  "name": "Open side panel",
+  "name": "ChatBar 🦁",
   "version": "1.0",
   "description": "Chat with Any website",
   "minimum_chrome_version": "116",

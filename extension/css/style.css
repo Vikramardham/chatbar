@@ -7,6 +7,9 @@ body {
     padding: 0;
     box-sizing: border-box;
 }
+header h1 {
+    text-align: center;
+}
 
 #messages {
     flex-grow: 1;
@@ -22,8 +25,8 @@ body {
 
 #messages li {
     list-style-type: none;
-    font-size:18px;
-    max-width: 100%;
+    font-size:14px;
+    max-width: 80%;
     margin-bottom: 10px;
     padding: 0.5rem;
     border-radius: 1rem;
@@ -34,12 +37,16 @@ body {
     align-self: flex-end;
     background-color: #0084ff;
     color: white;
+    background-position: bottom left;
+    margin-left: 40%;
 }
 
 #messages li:nth-child(even) {
     align-self: flex-start;
     background-color: #f0f0f0;
+    background-position: bottom right;
     color: black;
+    margin-right: 40%;
 }
 
 /* #messages li::before {
@@ -67,11 +74,11 @@ body {
 }
 
 #messages li:nth-child(odd)::before {
-    background-image: url('images/user.jpeg');
+    background-image: url('../images/user.jpeg');
 }
 
 #messages li:nth-child(even)::before {
-    background-image: url('images/ai.jpeg');
+    background-image: url('../images/ai.jpeg');
 }
 
 #messages li strong {
@@ -94,12 +101,20 @@ input {
     outline: none;
 }
 
-button {
-    padding: 0.5rem;
-    background-color: #4CAF50;
-    color: white;
+button[type="submit"] {
+    background-color: #0084ff; /* Change to your preferred color */
+    color: white; /* Change to your preferred color */
     border: none;
-    border-radius: 0.25rem;
+    border-radius: 5px;
+    padding: 10px 20px;
     cursor: pointer;
-    margin-left: 1rem;
+    transition: background-color 0.3s ease;
+}
+
+button[type="submit"]:hover {
+    background-color: #0063cc; /* Change to your preferred color */
+}
+
+button[type="submit"] .fa-paper-plane {
+    margin-left: 5px;
 }
