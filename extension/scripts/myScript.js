@@ -1,21 +1,3 @@
-//Send the entire HTML content to the server on page load
-//window.addEventListener('load', () => {
-window.onload = function () {
-    chrome.runtime.sendMessage({ message: "getHTML" }, function (response) {
-        const htmlContent = response.html;
-        fetch('http://127.0.0.1:8000/send-html', {
-            method: 'POST',
-            mode: 'no-cors',
-            headers: {
-                'Content-Type': 'application/json'
-            },
-            body: JSON.stringify({ html: htmlContent })
-        });
-    });
-    //});
-};
-
-
 // Handle form submission and send the message to the server
 
 const chatForm = document.getElementById('chat-form');

@@ -5,8 +5,11 @@ from html2text import HTML2Text
 
 def extract_article(html):
     try:
-        extractor = MainContentExtractor
-        return extractor.extract(html, output_format="markdown")
+        article = Article("")
+        article.set_html(html)
+        article.parse()
+        article.nlp()
+        return article.text
     except Exception as e:
         print("Failed to extract article content with error:", e)
         try:
@@ -16,10 +19,8 @@ def extract_article(html):
         except Exception as e:
             print("Failed to extract article content with error:", e)
             try:
-                article = Article("")
-                article.set_html(html)
-                article.parse()
-                return article.text
+                extractor = MainContentExtractor
+                return extractor.extract(html, output_format="markdown")
             except Exception as e:
                 print("Failed to extract article content", e)
                 return html

@@ -27,13 +27,15 @@ app.add_middleware(
 @app.post("/send-html")
 async def send_html(request: Request):
     html = await request.json()
-
+    with open("temp.html", "w") as f:
+        f.write(html["html"])
     content = extract_article(html["html"])
     summary = generate_summary(content)
     app.state.summary = summary
 
     app.state.chat = Chat(context=content)
-    print("Chat context:", content)
+    print("Content refreshed")
+    print("Summary refreshed", summary)
     return {"message": "HTML received and processed"}
 
 

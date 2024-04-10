@@ -13,7 +13,8 @@
   "content_scripts": [
     {
       "js": [
-        "scripts/myScript.js"
+        "scripts/myScript.js",
+        "scripts/content.js"
       ],
       "matches": [
         "<all_urls>"
@@ -26,7 +27,8 @@
     "activeTab",
     "tabs",
     "storage",
-    "scripting"
+    "scripting",
+    "webNavigation"
   ],
   "host_permissions": [
     "<all_urls>"

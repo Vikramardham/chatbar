@@ -31,6 +31,4 @@ class Chat:
             {"role": "system", "content": response["message"]["content"]}
         )
 
-        print(self.memory)
-
         return response["message"]["content"]
