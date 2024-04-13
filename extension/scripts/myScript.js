@@ -1,4 +1,37 @@
-// Handle form submission and send the message to the server
+let socket;
+let loadingItem;
+
+function connect() {
+    console.log("Attempting to connect...");
+
+    socket = new WebSocket("ws://127.0.0.1:8000/ws");
+
+    socket.onopen = function (e) {
+        console.log("[open] Connection established");
+        console.log("WebSocket readyState: " + socket.readyState);
+    };
+
+    socket.onerror = function (error) {
+        console.log(`[error] ${error.message}`);
+        console.log("WebSocket readyState: " + socket.readyState);
+    };
+
+    socket.onclose = function (event) {
+        console.log('WebSocket closed, attempting to reconnect...');
+        console.log("WebSocket readyState: " + socket.readyState);
+        console.log("Close event code: " + event.code);
+        console.log("Close event reason: " + event.reason);
+        setTimeout(connect, 1000);
+    };
+
+    socket.onmessage = function (event) {
+        const data = event.data;
+        messageList.removeChild(loadingItem);
+        appendMessage(`${data}`, 'Bot');
+    };
+}
+connect();
+
 
 const chatForm = document.getElementById('chat-form');
 const chatInput = document.getElementById('chat-input');
@@ -20,7 +53,6 @@ function appendMessage(text, sender) {
     messageList.scrollTop = messageList.scrollHeight;
 
 }
-
 chatForm.addEventListener('submit', (event) => {
     event.preventDefault();
     const message = chatInput.value.trim();
@@ -28,30 +60,11 @@ chatForm.addEventListener('submit', (event) => {
         appendMessage(`${message}`, 'user');
         chatInput.value = '';
 
-        const loadingItem = document.createElement('li');
-        loadingItem.textContent = 'Loading...';
+        loadingItem = document.createElement('li');
+        loadingItem.textContent = 'Loading ...';
         messageList.appendChild(loadingItem);
 
-        fetch('http://127.0.0.1:8000/send-message', {
-            method: 'POST',
-            headers: {
-                'Content-Type': 'application/json'
-            },
-            body: JSON.stringify({ message })
-        })
-            .then(response => {
-                if (!response.ok) {
-                    throw new Error(`HTTP error! status: ${response.status}`);
-                }
-                return response.json();
-            })
-            .then(data => {
-                messageList.removeChild(loadingItem);
-                appendMessage(`${data.response}`, 'Bot');
-            })
-            .catch(error => {
-                messageList.removeChild(loadingItem);
-                console.error('Error sending message to server:', error);
-            });
+        socket.send(JSON.stringify({ "message": message }));
+        console.log("Message sent");
     }
 });

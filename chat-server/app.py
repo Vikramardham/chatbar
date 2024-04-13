@@ -1,4 +1,4 @@
-from fastapi import FastAPI, Request
+from fastapi import FastAPI, Request, WebSocket
 from fastapi.middleware.cors import CORSMiddleware
 import ollama
 import asyncio
@@ -24,27 +24,27 @@ app.add_middleware(
 )
 
 
-@app.post("/send-html")
-async def send_html(request: Request):
-    html = await request.json()
-    with open("temp.html", "w") as f:
-        f.write(html["html"])
-    content = extract_article(html["html"])
-    summary = generate_summary(content)
-    app.state.summary = summary
+@app.websocket("/ws")
+async def websocket_handler(websocket: WebSocket):
+    await websocket.accept()
+    while True:
+        data = await websocket.receive_text()
+        data_json = json.loads(data)
+        if "html" in data_json:
+            html = data_json["html"]
+            content = extract_article(html)
+            summary = generate_summary(content)
+            app.state.summary = summary
 
-    app.state.chat = Chat(context=content)
-    print("Content refreshed")
-    print("Summary refreshed", summary)
-    return {"message": "HTML received and processed"}
+            app.state.chat = Chat(context=content)
+            print("Content refreshed")
+            print("Summary refreshed", summary)
+            await websocket.send_text("Content refreshed")
 
-
-@app.post("/send-message")
-async def send_message(request: Request):
-    message_data = await request.json()
-    message = message_data["message"]
-    response = app.state.chat.respond(message)
-    return {"response": response}
+        elif "message" in data_json:
+            message = data_json["message"]
+            response = app.state.chat.respond(message)
+            await websocket.send_text(response)
 
 
 if __name__ == "__main__":
