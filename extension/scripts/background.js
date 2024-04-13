@@ -36,7 +36,6 @@ async function sendHTML(html) {
 }
 
 chrome.tabs.onUpdated.addListener((tabId, changeInfo, tab) => {
-
     if (changeInfo.status === "complete" && tab.active && tab.url.startsWith('http')) {
         console.log("Tab updated:", tab.url);
         chrome.scripting.executeScript({
@@ -51,6 +50,20 @@ chrome.tabs.onUpdated.addListener((tabId, changeInfo, tab) => {
             }
         });
     }
+});
+
+chrome.tabs.onActivated.addListener(activeInfo => {
+    chrome.tabs.get(activeInfo.tabId, function (tab) {
+        if (tab.url.startsWith('http')) {
+            chrome.scripting.executeScript({ target: { tabId: tab.id }, files: ["scripts/get_html.js"] }, (result) => {
+                if (chrome.runtime.lastError) {
+                    console.error("Error injecting script:", chrome.runtime.lastError);
+                } else {
+                    sendHTML(result[0]);
+                }
+            });
+        }
+    });
 });
 
 // async function sendHTML(html) {
