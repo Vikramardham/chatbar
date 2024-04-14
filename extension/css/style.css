@@ -118,3 +118,10 @@ button[type="submit"]:hover {
 button[type="submit"] .fa-paper-plane {
     margin-left: 5px;
 }
+
+#status {
+    padding: 1rem;
+    text-align: center;
+    background-color: #f0f0f0;
+    color: #333;
+}

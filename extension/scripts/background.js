@@ -65,20 +65,3 @@ chrome.tabs.onActivated.addListener(activeInfo => {
         }
     });
 });
-
-// async function sendHTML(html) {
-//     try {
-//         const response = await fetch('http://127.0.0.1:8000/send-html', {
-//             method: 'POST',
-//             mode: 'no-cors',
-//             headers: {
-//                 'Content-Type': 'application/json'
-//             },
-//             body: JSON.stringify({ "html": html })
-//         });
-//         console.log("HTML content sent:", response.status);
-//     } catch (error) {
-//         console.error("Error sending HTML content:", error);
-//     }
-// }
-

@@ -29,12 +29,12 @@ async def websocket_handler(websocket: WebSocket):
             if "html" in data_json:
                 html = data_json["html"]
                 content = extract_article(html)
+                # print(html)
+                # open("content.txt", "w").write(content)
+                # open("html.txt", "w").write(html)
                 summary = generate_summary(content)
                 app.state.summary = summary
-
                 app.state.chat = Chat(context=content)
-                print("Content refreshed")
-                print("Summary refreshed", summary)
                 await websocket.send_text("Content refreshed")
 
             elif "message" in data_json:
