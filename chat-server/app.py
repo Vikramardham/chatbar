@@ -29,20 +29,22 @@ async def websocket_handler(websocket: WebSocket):
             if "html" in data_json:
                 html = data_json["html"]
                 content = extract_article(html)
-                # print(html)
-                # open("content.txt", "w").write(content)
                 # open("html.txt", "w").write(html)
+                print(content)
                 summary = generate_summary(content)
                 app.state.summary = summary
                 app.state.chat = Chat(context=content)
-                await websocket.send_text("Content refreshed")
+                await websocket.send_json(
+                    {"type": "status", "message": "Updated Context!"}
+                )
 
             elif "message" in data_json:
                 print("Message received")
                 message = data_json["message"]
                 response = app.state.chat.respond(message)
-                await websocket.send_text(response)
-                print("Response sent")
+                await websocket.send_json({"type": "message", "message": response})
+            else:
+                print("Waiting...")
     except Exception as e:
         print("Websocked close with error:", e)
 

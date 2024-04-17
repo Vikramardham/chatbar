@@ -1,6 +1,11 @@
 document.addEventListener('DOMContentLoaded', (event) => {
-    let socket;
     let loadingItem;
+    let socket;
+
+    const chatForm = document.getElementById('chat-form');
+    const chatInput = document.getElementById('chat-input');
+    const messageList = document.getElementById('messages');
+    const statusElement = document.getElementById('status');
 
     function connect() {
         console.log("Attempting to connect...");
@@ -26,19 +31,20 @@ document.addEventListener('DOMContentLoaded', (event) => {
         };
 
         socket.onmessage = function (event) {
+            console.log(`[message] Data received from server: ${event.data}`);
             const data = JSON.parse(event.data);
-            //const data = event.data;
-            messageList.removeChild(loadingItem);
-            appendMessage(`${data}`, 'Bot');
-        };
+            if (loadingItem) {
+                messageList.removeChild(loadingItem);
+                loadingItem = null;
+            }
+            appendMessage(data.message, 'bot');
+
+            if (data.type === "status") {
+                statusElement.textContent = data.message;
+            }
+        }
     }
     connect();
-
-
-    const chatForm = document.getElementById('chat-form');
-    const chatInput = document.getElementById('chat-input');
-    const messageList = document.getElementById('messages');
-    const statusElement = document.getElementById('status');
 
     function appendMessage(text, sender) {
         const messageItem = document.createElement('li');
@@ -66,11 +72,23 @@ document.addEventListener('DOMContentLoaded', (event) => {
             chatInput.value = '';
 
             loadingItem = document.createElement('li');
-            loadingItem.textContent = 'Loading ...';
+            loadingItem.textContent = 'Thinking ...';
             messageList.appendChild(loadingItem);
 
             socket.send(JSON.stringify({ "message": message }));
             console.log("Message sent");
         }
     });
+
+    chrome.runtime.onMessage.addListener((message, sender, sendResponse) => {
+        console.log("Message received from background:", message);
+        if (message.type === "status") {
+            statusElement.textContent = message.text;
+        }
+        //else if (message.type === "response") {
+        //    appendMessage(message.text, 'bot');
+        //}
+    });
+
+
 });

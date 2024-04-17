@@ -4,10 +4,9 @@
     <meta charset="UTF-8" />
     <meta name="viewport" content="width=device-width, initial-scale=1.0" />
     <title>Chat</title>
-    <!-- Content Security Policy allowing 'self' -->
     <meta
       http-equiv="Content-Security-Policy"
-      content="connect-src 'self' http://127.0.0.1:8000 ws://localhost:8000 ws://127.0.0.1:8000;"
+      content="script-src 'self'  http://localhost:* http://127.0.0.1:* ; object-src 'self';connect-src 'self' http://127.0.0.1:8000 ws://localhost:8000 ws://127.0.0.1:8000;"
     />
     <meta name="viewport" content="width=device-width, initial-scale=1" />
     <link rel="stylesheet" type="text/css" href="css/style.css" />
@@ -19,6 +18,7 @@
     <main>
       <section class="chat-container">
         <ul id="messages"></ul>
+        <div id="status" class="center"></div>
         <form id="chat-form" action="" method="post">
           <input
             type="text"
@@ -32,10 +32,8 @@
             </button>
           </div>
         </form>
-        <div id="status" class="center">Loading ...</div>
       </section>
     </main>
-    <!-- Correctly formed script tag -->
-    <script src="./scripts/myScript.js"></script>
+    <script src="./scripts/sidepanel.js"></script>
   </body>
 </html>

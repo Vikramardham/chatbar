@@ -13,7 +13,7 @@
   "content_scripts": [
     {
       "js": [
-        "scripts/myScript.js",
+        "scripts/sidepanel.js",
         "scripts/content.js"
       ],
       "matches": [
@@ -37,5 +37,9 @@
     "16": "icons/icon16.png",
     "48": "icons/icon48.png",
     "128": "icons/icon128.png"
+  },
+  "action": {
+    "default_icon": "icons/icon16.png",
+    "default_popup": "popup.html"
   }
 }

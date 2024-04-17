@@ -6,7 +6,10 @@ class Chat:
         self.model = model
         self.context = {
             "role": "system",
-            "content": f"Use the following context from the website whenever asked: \n {context}",
+            "content": f"""You are an AI chat assistant. Specialized in answering questions based on the context. The context is extracted from a webpage html.
+            Use the following text as context about the website whenever asked: \n
+            ### Context:
+            {context}""",
         }
         self.history = history
         self.memory = [self.context]
@@ -19,7 +22,7 @@ class Chat:
             self.model,
             messages=self.memory,
             options={
-                "num_predict": 1024,
+                "num_predict": 512,
                 "temperature": 0.0,
                 "top_p": 1,
                 "frequency_penalty": 0,
